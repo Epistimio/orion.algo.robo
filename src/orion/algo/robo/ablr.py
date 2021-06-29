@@ -37,7 +37,8 @@ class RoBO_ABLR(RoBO):
         seed=0,
         n_initial_points=20,
         maximizer="random",
-        acquisition_func="log_ei",
+        # acquisition_func="log_ei",# BUG: log_ei seems to only work when batch size == 1.
+        acquisition_func="ei",
         # feature_map: Encoder = None,
         alpha: float = 1.0,
         beta: float = 1.0,

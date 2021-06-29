@@ -243,7 +243,9 @@ def test_deepcopy_ablr():
     # assert False, {
     #     k: v.requires_grad for k, v in state_dict.items()
     # }
-    copy.deepcopy(ablr)
+    ablr_copy = copy.deepcopy(ablr)
+    # BUG in LBFGS: _params attribute doesn't get copied!
+    assert hasattr(ablr_copy.optimizer, "_params")
 
 
 from typing import ClassVar, Type
