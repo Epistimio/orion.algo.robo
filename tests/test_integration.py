@@ -234,6 +234,40 @@ class TestRoBO_BOHAMIANN(BaseRoBOTests):
         assert spy.call_count > 0
         assert spy.call_args[1] == train_config
 
+from orion.algo.robo.ablr import ABLR
+import copy
+def test_deepcopy_ablr():
+    """ Tests deepcopy of the ABLR model. """
+    ablr = ABLR({"foo": "uniform(0,1)"})
+    state_dict = ablr.state_dict()
+    # assert False, {
+    #     k: v.requires_grad for k, v in state_dict.items()
+    # }
+    copy.deepcopy(ablr)
+
+
+from typing import ClassVar, Type
+from orion.algo.robo.ablr import RoBO_ABLR, RoBO
+
+class TestRoBO_ABLR(BaseRoBOTests):
+    """ TODO: Debugging ABLR (not quite the "real" tests yet. """
+
+    algo_name: ClassVar[str] = "robo_ablr"
+    Algo: ClassVar[Type[RoBO]] = RoBO_ABLR
+    config = {
+        "seed": 1234,
+        "n_initial_points":  N_INIT,
+        "maximizer":"random",
+        # "acquisition_func" :"log_ei", # BUG: log_ei seems to only work when batch size == 1.
+        "acquisition_func" :"ei",
+        # feature_map: Encoder = None,
+        "alpha": 1.0,
+        "beta": 1.0,
+        "learning_rate": 0.001,
+        "batch_size": 100,
+        "epochs": 1,
+        "normalize_inputs": True,
+    }
 
 TestRoBO_GP.set_phases(
     [("random", 0, "space.sample"), ("gp", N_INIT + 1, "robo.choose_next")]
@@ -246,3 +280,5 @@ TestRoBO_RandomForest.set_phases([("randomforest", N_INIT + 1, "robo.choose_next
 TestRoBO_DNGO.set_phases([("dngo", N_INIT + 1, "robo.choose_next")])
 
 TestRoBO_BOHAMIANN.set_phases([("bohamiann", N_INIT + 1, "robo.choose_next")])
+
+TestRoBO_ABLR.set_phases([("ablr", N_INIT + 1, "robo.choose_next")])

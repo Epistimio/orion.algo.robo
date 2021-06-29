@@ -10,7 +10,7 @@ import versioneer
 
 repo_root = os.path.dirname(os.path.abspath(__file__))
 
-tests_require = ["pytest>=3.0.0"]
+tests_require = ["pytest>=3.0.0", "pytest-mock"]
 
 setup_args = dict(
     name="orion.algo.robo",
@@ -31,7 +31,8 @@ setup_args = dict(
             "robo_gp_mcmc = orion.algo.robo.gp:RoBO_GP_MCMC",
             "robo_randomforest = orion.algo.robo.randomforest:RoBO_RandomForest",
             "robo_dngo = orion.algo.robo.dngo:RoBO_DNGO",
-            "robo_bohamiann= orion.algo.robo.bohamiann:RoBO_BOHAMIANN",
+            "robo_bohamiann = orion.algo.robo.bohamiann:RoBO_BOHAMIANN",
+            "robo_ablr = orion.algo.robo.ablr:RoBO_ABLR",
         ],
     },
     install_requires=["orion>=0.1.11", "numpy", "torch>=1.2.0"],
