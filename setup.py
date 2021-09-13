@@ -32,13 +32,27 @@ setup_args = dict(
             "robo_randomforest = orion.algo.robo.randomforest:RoBO_RandomForest",
             "robo_dngo = orion.algo.robo.dngo:RoBO_DNGO",
             "robo_bohamiann = orion.algo.robo.bohamiann:RoBO_BOHAMIANN",
-            "robo_ablr = orion.algo.robo.ablr:RoBO_ABLR",
+            "robo_ablr = orion.algo.robo.ablr.ablr:RoBO_ABLR",
+            # TODO: MT-ABLR depends on https://github.com/Epistimio/orion/pull/603
+            # "robo_mtablr = orion.algo.robo.multi_task_ablr:RoBO_MTABLR",
         ],
     },
-    install_requires=["orion>=0.1.11", "numpy", "torch>=1.2.0",
-                      "warmstart @ git+https://www.github.com/lebrice/HPO-Warm-Start.git@master#egg=warmstart",
-                    #   "ablr @ git+https://www.github.com/lebrice/HPO-Warm-Start.git@master#egg=ablr",
-                      ],
+    install_requires=[
+        "orion>=0.1.11",
+        "numpy",
+        "torch>=1.2.0",
+        # NOTE: Adding the dependencies here makes it temporarily imimpossible to publish to PyPI
+        "Cython",
+        "PyYAML",
+        "Jinja2",
+        "numpy",
+        # TODO: Create forks and publish those forks to PyPI as `orion.algo.robo.george` or similar?
+        "george @ git+https://github.com/automl/george.git@development",
+        "robo @ git+https://github.com/automl/RoBO.git",
+        # NOTE: Need to specify this specific version for pybnn because of a bug in the DNGO model's
+        # sampler:
+        "pybnn @ git+https://github.com/automl/pybnn@master#egg=pybnn",
+    ],
     tests_require=tests_require,
     setup_requires=["setuptools", "pytest-runner>=2.0,<3dev"],
     extras_require=dict(test=tests_require),

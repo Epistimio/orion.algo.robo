@@ -5,20 +5,16 @@
 
 """
 
-from typing import Callable, Dict, Optional, Tuple, Union, List
-from orion.core.worker.multi_task_algo import WarmStarteable
+from typing import Dict, Tuple, List
 from logging import getLogger
 
-
 import torch
-import numpy
 from typing import List, Dict
-from orion.core.utils.config import ExperimentInfo
-from orion.core.worker.trial import Trial
 import numpy as np
 
-from orion.algo.robo.base import RoBO, build_bounds, infer_n_hypers, build_kernel
-from ablr.ablr import ABLR
+from orion.algo.robo.base import RoBO, build_bounds
+from orion.algo.robo.ablr.ablr_model import ABLR
+
 logger = getLogger(__file__)
 
 
@@ -116,28 +112,6 @@ class RoBO_ABLR(RoBO):
     
 
 class OrionABLRWrapper(ABLR):
-    # def __init__(
-    #     self,
-    #     space_or_task,
-    #     feature_map=NeuralNetEncoder,
-    #     alpha=1.0,
-    #     beta=1.0,
-    #     learning_rate=0.001,
-    #     batch_size=1000,
-    #     epochs=1,
-    #     normalize_inputs=True,
-    # ):
-    #     super().__init__(
-    #         space_or_task,
-    #         feature_map=feature_map,
-    #         alpha=alpha,
-    #         beta=beta,
-    #         learning_rate=learning_rate,
-    #         batch_size=batch_size,
-    #         epochs=epochs,
-    #         normalize_inputs=normalize_inputs,
-    #     )
-
     @property
     def lower(self) -> np.ndarray:
         return build_bounds(self.space)[0]

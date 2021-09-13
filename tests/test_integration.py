@@ -11,6 +11,11 @@ import orion.core.cli
 import pytest
 from orion.testing.algo import BaseAlgoTests
 
+from orion.algo.robo.ablr.ablr_model import ABLR
+import copy
+from typing import ClassVar, Type
+from orion.algo.robo.ablr import RoBO_ABLR, RoBO
+
 N_INIT = 10
 
 
@@ -234,8 +239,7 @@ class TestRoBO_BOHAMIANN(BaseRoBOTests):
         assert spy.call_count > 0
         assert spy.call_args[1] == train_config
 
-from orion.algo.robo.ablr import ABLR
-import copy
+
 def test_deepcopy_ablr():
     """ Tests deepcopy of the ABLR model. """
     ablr = ABLR({"foo": "uniform(0,1)"})
@@ -248,8 +252,6 @@ def test_deepcopy_ablr():
     assert hasattr(ablr_copy.optimizer, "_params")
 
 
-from typing import ClassVar, Type
-from orion.algo.robo.ablr import RoBO_ABLR, RoBO
 
 class TestRoBO_ABLR(BaseRoBOTests):
     """ TODO: Debugging ABLR (not quite the "real" tests yet. """
